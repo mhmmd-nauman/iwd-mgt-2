@@ -1,0 +1,32 @@
+<div class="test-wrapper" data-block="test" data-bind="visible: isActive()">
+    <p>Enter Data of Birth</p>
+    <input type="text" data-bind="textInput:totala">
+    <div class="field ">
+    <label class="field-label">
+        <span><?php echo __(' Date Picker')?></span>
+    </label>
+    <div class="field-control ">
+        <input class="control-text" name="datepicker" id="datepicker" type="text">
+    </div>
+    </div>
+    <div class="data_area customer-dob row">
+            <div class="dob-month col-md-2">
+                <input data-bind="value: dob_month" type="text" id="dob_month" name="dob_month" value="" title="Month" class="t1 validate-custom" required>
+                         <label for="billing:month">MM</label>
+                     </div>
+                
+            <div class="dob-day col-md-2">
+                         <input data-bind="value: dob_day" type="text" id="dob_day" name="dob_day" value="" title="Day" placeholder="Day" class="t1 required>
+                         <label for="billing:day">DD</label>
+                     </div>
+                <div class="dob-year col-md-2">
+                         <input data-bind="value: dob_year" type="text" id="dob_year" name="dob_year" value="" title="Year" placeholder="Year" class="t1 validate-custom" required>
+                         <label for="billing:year">YYYY</label>
+               </div>    
+        </div>
+    <div class="row">
+        <button type="button" data-bind="click: onSubmit1" class="action" value="Submit Data">
+            Submit Data
+        </button>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+?>
+
+<div class="new-model" id="my_model">
+      <div class="model-mid">
+            <div class="v-middle">
+                   <div class="model-content">
+                          <div class="close-btn" onclick="myFunction()">
+                                <img width="22" src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('images/cancel.png'); ?>">  
+                          </div> 
+                          <div class="alert-image">
+                                <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('images/danger.jpg'); ?>"> 
+                          </div>
+                          <div class="alert-content">
+                                 <p>Warning: Cigars and pipe tobacco can expose you to chemicals including tobacco smoke, which is known to the State of California to cause cancer, and nicotine, which is known to the State of California to cause birth defects and other reproductive harm. for more information, go to www.P65Warnings.ca.gov</p>
+                          </div>
+                   </div>
+            </div>
+      </div>
+</div>
+
+<script type="text/javascript">
+     function myFunction() {
+        var x = document.getElementById("my_model");
+        x.style.display = "none";
+        
+    }
+</script>
+
+
+
+<div id="checkout" data-bind="scope:'checkout'" class="checkout-container">
+    <div id="checkout-loader" data-role="checkout-loader" class="loading-mask" data-mage-init='{"checkoutLoader": {}}'>
+        <div class="loader">
+            <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('images/loader-1.gif'); ?>"
+                 alt="<?php /* @escapeNotVerified */ echo __('Loading...'); ?>"
+                 style="position: absolute;">
+        </div>
+    </div>
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <script type="text/x-magento-init">
+        {
+            "#checkout": {
+                "Magento_Ui/js/core/app": <?php /* @escapeNotVerified */ echo $block->getJsLayout();?>
+            }
+        }
+    </script>
+    <script>
+        window.checkoutConfig = <?php /* @escapeNotVerified */ echo \Zend_Json::encode($block->getCheckoutConfig()); ?>;
+        // Create aliases for customer.js model from customer module
+        window.isCustomerLoggedIn = window.checkoutConfig.isCustomerLoggedIn;
+        window.customerData = window.checkoutConfig.customerData;
+    </script>
+    <script>
+        require([
+            'mage/url',
+            'Magento_Ui/js/block-loader'
+        ], function(url, blockLoader) {
+            blockLoader("<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('images/loader-1.gif'); ?>");
+            return url.setBaseUrl('<?php /* @escapeNotVerified */ echo $block->getBaseUrl();?>');
+        })
+    </script>
+</div>
