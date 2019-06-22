@@ -26,11 +26,21 @@
                 <!-- ko template: 'IWD_Opc/shipping-address/form' --><!-- /ko -->
             </div>
         </div>
-         <div class="iwd_opc_universal_wrapper iwd_opc_column_name" data-bind="i18n: 'DOB'"></div>
+        <div class="content">You Are Certifying that you are 21 years old or older.</div>
+         <div class="iwd_opc_universal_wrapper iwd_opc_column_name" data-bind="i18n: 'Enter Date Of Birth & Gender:'"></div>
          <div tabindex="-1" class="iwd_opc_column_content">
+             <div class="data_area customer-dob row">
+                 <div class="dob-month col-md-2">Gender:</div>
+                 <div class="dob-month col-md-10">
+                     <select name="Gender" id="Gender">
+                         <option value="M" >Male</option>
+                         <option value="F" >Female</option>
+                     </select>
+                 </div>
+             </div>
             <div class="data_area customer-dob row">
                 <div class="dob-month col-md-4">
-                    <input  type="text" id="dob_month" name="dob_month" value="" title="Month" class="t1 validate-custom" required>
+                    <input  type="text" placeholder="MM" id="dob_month" name="dob_month" value="" title="Month" class="t1 validate-custom" required>
                              <label for="billing:month">MM</label>
                          </div>
 

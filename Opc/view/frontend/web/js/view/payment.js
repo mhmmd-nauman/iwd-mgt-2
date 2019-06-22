@@ -219,22 +219,33 @@ define(
 
             placeOrder: function (data, event) {
                 var self = this;
-                this.isPlaceOrderActionAllowed(false);
+                
                 var ageVerificationFlag = 0;
                 var message = "";
                 //dob_month: ko.observable("MM"),
                 //dob_day: ko.observable("DD"),
                 //dob_year: ko.observable("YYYY"),
-                //var shippingAddress = quote.shippingAddress();
-                alert($("#dob_month").val());
-                var zipcode= encodeURIComponent("93306");
-                var firstname= encodeURIComponent("Lucy");
-                var lastname = encodeURIComponent("Jones");
-                var address = encodeURIComponent("1012 Main St");
-                var dob = encodeURIComponent("8/2/1969");
-                var country = encodeURIComponent("");
-                var gender = encodeURIComponent("F");
-                var phone = encodeURIComponent("2082243569");
+                var shippingAddress = quote.shippingAddress();
+                //console.log(shippingAddress.city);
+                //alert($("#dob_month").val());
+                //var zipcode= encodeURIComponent("93306");
+                //var firstname= encodeURIComponent("Lucy");
+                //var lastname = encodeURIComponent("Jones");
+                //var address = encodeURIComponent("1012 Main St");
+                //var dob = encodeURIComponent("8/2/1969");
+                //var country = encodeURIComponent("");
+                //var gender = encodeURIComponent("F");
+                //var phone = encodeURIComponent("2082243569");
+                
+                var zipcode  = shippingAddress.postcode;
+                var firstname= shippingAddress.firstname;
+                var lastname = shippingAddress.lastname;
+                var address  = shippingAddress.street[0] + " "+shippingAddress.street[1];
+                var dob      = $("#dob_month").val()+"/"+$("#dob_day").val()+"/"+$("#dob_year").val();
+                var country  = shippingAddress.countryId;
+                var gender   = $('#Gender').val();
+                var phone    = $("input[name=telephone]").val();
+                
                 
                 //if($bill_data['country_id'] == "US" || $bill_data['country_id'] == "UM" || $bill_data['country_id'] == "VI"){
                 
@@ -242,43 +253,33 @@ define(
                         "&zip="+zipcode+"&first="+firstname+"&last="+lastname+
                         "&address="+address+"&dob="+dob+"&country="+country+
                         "&gender="+gender+"&phone="+phone;
-                 var url = "https://www.INTEGRITY-DIRECT.com/online/authentication_url.asp";
-                 var count = param.length;
-                $.ajax({
-                         showLoader: true,
-                         url: url,
-                         data: param,
-                         type: "POST",
-                         dataType: 'JSONP',
-                         headers: {  'Content-type': 'application/x-www-form-urlencoded',
-                                     'Content-Length': count,
-                                     'Access-Control-Allow-Origin':'*'
-                                  }
-                     }).done(function (data) {
-                         // tid=U5268F6318C73A4C8612&mc=1&mc_desc=zip;last;first_i;yyyy&err_code=0&err_desc=
-                         var err_code = 0
-                         var mc = 0;
-                         var err_desc = "";
-                         var ageVerificationFlag = 1;
-                         var message = "";
-                         if(err_code === 0){            
-                             if(mc !== 0){               
-                                     //echo "response=verified";            
-                             }else{ 
-                                     ageVerificationFlag = 0;              
-                                     message = 'We were not able to verify the identity attributes you submitted. Please verify that the identity attributes you provided are correct. If your legal first name is William, make sure to submit William instead of Bill. If you have moved recently, please try with your previous address or if you have recently married, please try with your maiden name.';         
-                             }         
-                         }else{  
-                                     ageVerificationFlag = 0; 
-                                     message = err_desc;                
-                             }    
-
-                         console.log(data);
-                 });
-                if(ageVerificationFlag === 0){
-                    alert(message);
-                    return false;
-                }
+               // console.log(param);
+                var url = "../age_verifications_script/index.php?"+param;
+                $.ajax({ 
+                    type: 'GET', 
+                    url: url, 
+                  //  data: { get_param: 'value' }, 
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                       // console.log(data.ageVerificationFlag);
+                        if(data.ageVerificationFlag === 0){
+                            //this.isPlaceOrderActionAllowed(false);
+                            alert(data.message);
+                            // iwd_opc_place_order_button
+                           // $("#elementID").prop("disabled", true);
+                           //  $("#elementID").removeAttr('disabled');
+                            return false;
+                        }
+                        $.each(data, function(index, element) {
+                             console.log(index + " "+ element);
+                             
+                        });
+                    }
+                });
+                
+               
+                
                 // end of age verification
                 if (event) {
                     event.preventDefault();
@@ -317,3 +318,12 @@ define(
         });
     }
 );
+
+function explode (s, separator, limit)
+{
+    var arr = s.split(separator);
+    if (limit) {
+        arr.push(arr.splice(limit-1, (arr.length-(limit-1))).join(separator));
+    }
+    return arr;
+}
